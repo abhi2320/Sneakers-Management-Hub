@@ -1,0 +1,138 @@
+CREATE TABLE SNEAKER-MODEL (
+    ModelID INT(5) PRIMARY KEY,
+    Brand VARCHAR(25),
+    Style VARCHAR(25),
+    Color VARCHAR(25),
+    Size INT(2),
+    ReleaseDate DATE,
+    Price Decimal(10,2),
+);
+
+CREATE TABLE USER-PREFERENCES (
+    UserID INT(5),
+    PreferredBrand VARCHAR(25),
+    PreferredStyle VARCHAR(25),
+    PreferredColor VARCHAR(25),
+    PreferredSize INT(2),
+    CONSTRAINT pk_USER_PREFERENCES PRIMARY KEY (UserID)
+);
+
+CREATE TABLE STORE-INFORMATION (
+    StoreID INT(5),
+    StoreOwnerName VARCHAR(25),
+    StoreLocation VARCHAR(25),
+    StocksPresent VARCHAR(25),
+    CONSTRAINT pk_STORE_INFORMATION PRIMARY KEY (StoreID)
+);
+
+CREATE TABLE INVENTORY (
+    StockID INT(5),
+    ModelID INT(5),
+    AvailableQuantity INT(5),
+    Price FLOAT(5,2),
+    Supplier VARCHAR(25),
+    CONSTRAINT pk_INVENTORY PRIMARY KEY (StockID),
+    CONSTRAINT fk_INVENTORY_ModelID FOREIGN KEY (ModelID) 
+    REFERENCES SNEAKER-MODEL(ModelID) ON DELETE CASCADE
+);
+
+CREATE TABLE USER-REVIEW (
+    ReviewID INT(5),
+    UserID INT(5),
+    ModelID INT(5),
+    Rating INT(5),
+    Comments VARCHAR(40),
+    Date DATE,
+    CONSTRAINT pk_USER_REVIEW PRIMARY KEY (ReviewID),
+    CONSTRAINT fk_USER_REVIEW_UserID FOREIGN KEY (UserID) 
+    REFERENCES USER-PREFERENCES(UserID) ON DELETE CASCADE,
+    CONSTRAINT fk_USER_REVIEW_ModelID FOREIGN KEY (ModelID) 
+    REFERENCES SNEAKER-MODEL(ModelID) ON DELETE CASCADE
+);
+
+
+CREATE TABLE Cart (
+    CartID INT AUTO_INCREMENT PRIMARY KEY,
+    Brand VARCHAR(255),
+    Style VARCHAR(255),
+    Color VARCHAR(255),
+    Size INT,
+    Price DECIMAL(10, 2)
+);
+
+
+CREATE TABLE CUSTOMER (
+    Cust_id INT AUTO_INCREMENT PRIMARY KEY,
+    Cust_name VARCHAR(255),
+    Cust_phone BIGINT
+);
+
+
+CREATE TABLE ACCOUNT (
+   id int AUTO_INCREMENT PRIMARY KEY,
+   username varchar(80),
+   password varchar(128),
+   email varchar(120)
+);
+ 
+
+INSERT INTO sneaker_model (ModelId, Brand, Style, Color, Size, ReleaseDate, Price)
+VALUES
+    (1, 'Nike', 'Air Zoom Pegasus 38', 'Black', 10, '2023-01-01', 120),
+    (2, 'Adidas', 'Ultraboost', 'Grey', 9, '2022-12-15', 180),
+    (3, 'Brooks', 'Ghost 16', 'Blue', 11, '2023-02-01', 140),
+    (4, 'Asics', 'Gel Nimbus', 'Black', 10, '2023-01-20', 160),
+    (5, 'Nike', 'LeBron 18', 'Red', 11, '2022-12-25', 200),
+    (6, 'Adidas', 'Harden Vol. 5', 'Black', 10, '2023-02-10', 160),
+    (7, 'Under Armour', 'Curry 8', 'White', 9, '2023-01-15', 140),
+    (8, 'Air Jordan', 'XXXVII', 'Black', 10, '2022-12-30', 190),
+    (9, 'Converse', 'Chuck Taylor All Star', 'White', 9, '2023-01-05', 60),
+    (10, 'Vans', 'Old Skool', 'Black', 10, '2023-02-05', 70),
+    (11, 'Adidas', 'Stan Smith', 'White', 10, '2022-12-20', 80),
+    (12, 'Nike', 'Air Force 1', 'White', 11, '2023-01-10', 90),
+    (13, 'Reebok', 'Nano X', 'Black', 9, '2023-02-15', 130),
+    (14, 'Nike', 'Metcon', 'Black', 10, '2023-01-25', 150),
+    (15, 'New Balance', 'Minimus', 'Grey', 11, '2023-01-02', 120),
+    (16, 'Adidas', 'CrazyTrain', 'Grey', 10, '2023-02-20', 140);
+
+
+
+INSERT INTO STORE_INFORMATION (StoreID, StoreOwnerName, StoreLocation, StocksPresent)
+VALUES
+    (1, 'John Doe', 'New York', 'Nike, Adidas, Puma'),
+    (2, 'Jane Smith', 'Los Angeles', 'Nike, Reebok'),
+    (3, 'Michael Johnson', 'Chicago', 'Adidas, New Balance');
+    
+
+INSERT INTO USER_PREFERENCES (UserID, PreferredBrand, PreferredStyle, PreferredColor, PreferredSize)
+VALUES
+    (1, 'Nike', 'Running', 'Blue', 10),
+    (2, 'Adidas', 'Casual', 'Black', 9),
+    (3, 'Puma', 'Sneakers', 'White', 8);
+
+
+INSERT INTO INVENTORY (StockID, ModelID, AvailableQuantity, Price, Supplier)
+VALUES
+    (1, 1, 100, 90.00, 'Nike Inc.'),
+    (2, 2, 75, 75.00, 'Adidas Group'),
+    (3, 3, 50, 80.99, 'Puma SE');
+
+
+INSERT INTO User_Review (ReviewID, UserID, ModelID, Rating, Comments, Date)
+VALUES
+    (1, 123, 1, 4, 'Great shoes, very comfortable', '2023-01-05'),
+    (2, 456, 2, 5, 'Best running shoes I ever had', '2023-01-10'),
+    (3, 789, 3, 4, 'Nice design and good support', '2023-01-15'),
+    (4, 123, 4, 3, 'Decent shoes but a bit narrow', '2023-01-20'),
+    (5, 456, 5, 5, 'Excellent basketball shoes', '2023-01-25'),
+    (6, 789, 6, 4, 'Comfortable for long hours of play', '2023-02-01'),
+    (7, 123, 7, 4, 'Good traction on the court', '2023-02-05'),
+    (8, 456, 8, 5, 'Love the style and performance', '2023-02-10'),
+    (9, 789, 9, 3, 'Decent quality for the price', '2023-02-15'),
+    (10, 123, 10, 4, 'Classic design, reliable', '2023-02-20'),
+    (11, 456, 11, 5, 'Timeless sneakers, always a favorite', '2023-02-25'),
+    (12, 789, 12, 4, 'Solid shoes for everyday wear', '2023-03-01'),
+    (13, 123, 13, 3, 'Average performance, nothing special', '2023-03-05'),
+    (14, 456, 14, 5, 'Great for cross-training workouts', '2023-03-10'),
+    (15, 789, 15, 4, 'Lightweight and comfortable', '2023-03-15'),
+    (16, 123, 16, 4, 'Good grip and stability', '2023-03-20');
